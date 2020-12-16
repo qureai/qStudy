@@ -16,9 +16,10 @@ RUN wget http://slicer.kitware.com/midas3/download/bitstream/1329446/Slicer-4.11
 ARG VNC_PASSWORD
 
 # Install VNC and GL packages
-RUN apt-get -y install x11vnc xvfb libglu1-mesa libpulse-mainloop-glib0 libnss3 libxcursor-dev \
-    libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev fluxbox \
-    x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && apt-get -y install x11vnc xvfb libglu1-mesa libpulse-mainloop-glib0 libnss3 libxcursor-dev \
+    libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev openbox menu \
+    x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies
 
 # Set VNC password
 RUN mkdir -p /root/.vnc
