@@ -1,13 +1,17 @@
+# Import required libraries
 import numpy as np
 import qt
 import os
 from glob import glob
 import json
 
-FILE = "/home/ec2-user/Desktop/project_slicer/buffer.txt"
-ANNOTATIONS_DIR = "/home/ec2-user/annotations"
+# Defining path
+FILE = "/root/buffer.txt"
+ANNOTATIONS_DIR = "/root/annotations"
 
+already_updated = [""]  # array to check if the file requested is same or not
 
+# This function flips inverted dicom images
 def flip_dicoms():
     sliceNode = slicer.app.layoutManager().sliceWidget("Red").mrmlSliceNode()
     sliceToRas = sliceNode.GetSliceToRAS()
@@ -18,12 +22,14 @@ def flip_dicoms():
     sliceNode.UpdateMatrices()
 
 
-def brainWindow(volumenode):
+# This function loads a brain volume node on the 3dslicer window
+def brain_window(volumenode):
     displaynode = volumenode.GetDisplayNode()
     displaynode.AutoWindowLevelOff()
     displaynode.SetWindowLevel(100, 50)
 
 
+# This function loads files from given folder path
 def load_dicom_volume_from_folder(path):
     print("Loading file {}".format(path))
     studyUID = os.path.basename(path)[: -len(".nii.gz")]
@@ -77,15 +83,17 @@ def load_dicom_volume_from_folder(path):
         slicer.vtkMRMLInteractionNode.AdjustWindowLevel
     )
     flip_dicoms()
-    brainWindow(volumenode)
+    brain_window(volumenode)
 
 
+# This function returns the path of buffer file
 def get_filepath():
     filepath = open(FILE).read().strip()
     return filepath
 
 
-def toggleSphereBrush():
+# This function provides a toggle option for the Sphere Brush to paint while segementation
+def toggle_sphere_brush():
     segmentEditorWidget = (
         slicer.modules.segmenteditor.widgetRepresentation().self().editor
     )
@@ -94,9 +102,7 @@ def toggleSphereBrush():
     painteffect.setCommonParameter("BrushSphere", 0 if isSphere else 1)
 
 
-already_updated = [""]
-
-
+# This function saves the changes and updates the display of the 3dslcier window
 def update_display():
     filepath = get_filepath()
     slicer.util.findChild(slicer.util.mainWindow(), "LogoLabel").visible = False
@@ -125,6 +131,7 @@ def update_display():
     qt.QTimer.singleShot(1000, update_display)
 
 
+# This function provides various colors to differentiate different parts while segmentation
 def assign_colors_for_segmentation():
     try:
         segment_node = getNode("vtkMRMLSegmentationNode1")
@@ -137,6 +144,7 @@ def assign_colors_for_segmentation():
         return
 
 
+# This function adds a new segmentation node based on the given study UID
 def add_segmentation_node(studyUID):
     seg = slicer.mrmlScene.AddNewNodeByClassWithID(
         "vtkMRMLSegmentationNode", studyUID, "vtkMRMLSegmentationNode1"
@@ -147,6 +155,7 @@ def add_segmentation_node(studyUID):
     seg.GetSegmentation().AddEmptySegment("4", "Right lateral ventricle")
 
 
+# This function saves all the changes to the annotations directory
 def save_all(filepath, annotations_dir=ANNOTATIONS_DIR):
     nodes = getNodesByClass("vtkMRMLScalarVolumeNode")
     assert len(nodes) == 1
@@ -175,6 +184,7 @@ def save_all(filepath, annotations_dir=ANNOTATIONS_DIR):
     print("Saving all segmentations to {}".format(dir_path))
 
 
+# This function converts RAS coordinates to IJK or XYZ coordinates
 def get_ijk_point(pt):
     volumeID = "vtkMRMLScalarVolumeNode1"
     coordsXYZ = [0, 0, 0]
@@ -191,6 +201,7 @@ def get_ijk_point(pt):
     return coordsIJK
 
 
+# This function saves the IJK or XYZ coordinates
 def save_as_ijk(markupnodes, dir_path, prefix):
     for i, node in enumerate(markupnodes):
         try:
@@ -209,6 +220,7 @@ def save_as_ijk(markupnodes, dir_path, prefix):
             continue
 
 
+# This function saves the resampled points selected during segmentation
 def save_resampled_points(markupcurvenodes, dir_path):
     resampleNumber = 50
     for i, markupcurvenode in enumerate(markupcurvenodes):
@@ -231,11 +243,12 @@ def save_resampled_points(markupcurvenodes, dir_path):
             json.dump(all_points, fp)
 
 
-def Register_Shortcuts():
+# This function registers shortcuts to the functions provided
+def register_shortcuts():
 
     shortcuts = [
         ("s", lambda: save_all(already_updated[-1])),
-        ("b", lambda: toggleSphereBrush()),
+        ("b", lambda: toggle_sphere_brush()),
     ]
 
     for (shortcutKey, callback) in shortcuts:
@@ -244,6 +257,7 @@ def Register_Shortcuts():
         shortcut.connect("activated()", callback)
 
 
+# This function clears the buffer file
 def empty_buffer_file():
     file_ = open(FILE, "r+")
     file_.truncate(0)
@@ -251,5 +265,5 @@ def empty_buffer_file():
 
 
 empty_buffer_file()
-Register_Shortcuts()
+register_shortcuts()
 update_display()
