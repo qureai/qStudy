@@ -1,18 +1,30 @@
-# Import required libraries
+"""3d Slicer segmentation extension module.
+ 
+This module augments the functionalities provided by the 3d Slicer tool.
+"""
 import numpy as np
 import qt
 import os
 from glob import glob
 import json
 
-# Defining path
+
 FILE = "/root/buffer.txt"
 ANNOTATIONS_DIR = "/root/annotations"
+"""str: module-level file and directory paths
+ 
+Variable FILE contains the path for the buffer.txt file and variable ANNOTATIONS_DIR contains the path for the output annotations directory.
+"""
 
-already_updated = [""]  # array to check if the file requested is same or not
+already_updated = [""]
+"""list: the list to check if a new file is requested or not."""
 
-# This function flips inverted dicom images
+
 def flip_dicoms():
+    """Flip DICOM images.
+
+    Flips inverted DICOM images by performing 180 degrees rotation transform.
+    """
     sliceNode = slicer.app.layoutManager().sliceWidget("Red").mrmlSliceNode()
     sliceToRas = sliceNode.GetSliceToRAS()
     transform = vtk.vtkTransform()
@@ -22,15 +34,33 @@ def flip_dicoms():
     sliceNode.UpdateMatrices()
 
 
-# This function loads a brain volume node on the 3dslicer window
 def brain_window(volumenode):
+    """Display brain window.
+
+    Loads a brain volume node on the 3d Slicer window.
+
+    Args:
+        volumenode:
+            node loaded from file
+    """
     displaynode = volumenode.GetDisplayNode()
     displaynode.AutoWindowLevelOff()
     displaynode.SetWindowLevel(100, 50)
 
 
-# This function loads files from given folder path
 def load_dicom_volume_from_folder(path):
+    """Load DICOM volume from folder
+
+    Loads DICOM volume to a node from a given file path or folder path. Flips
+    loaded DICOM images and displays them on the brain window of 3d Slicer tool.
+
+    Args:
+        path: str
+            Path of the DICOM image file.
+
+    Raises:
+        Exception: An error based on the exception occurred.
+    """
     print("Loading file {}".format(path))
     studyUID = os.path.basename(path)[: -len(".nii.gz")]
     already_segmented = os.path.exists(os.path.join(ANNOTATIONS_DIR, studyUID))
@@ -86,14 +116,23 @@ def load_dicom_volume_from_folder(path):
     brain_window(volumenode)
 
 
-# This function returns the path of buffer file
 def get_filepath():
+    """Get file path.
+
+    Get a DICOM image file path from the buffer.txt file.
+
+    Returns:
+        str: the path of the DICOM image file if present in buffer.txt file else empty string.
+    """
     filepath = open(FILE).read().strip()
     return filepath
 
 
-# This function provides a toggle option for the Sphere Brush to paint while segementation
 def toggle_sphere_brush():
+    """Toggle sphere brush.
+
+    Toggles sphere brush used to paint during DICOM image segmentation in the 3d Slicer tool.
+    """
     segmentEditorWidget = (
         slicer.modules.segmenteditor.widgetRepresentation().self().editor
     )
@@ -104,6 +143,12 @@ def toggle_sphere_brush():
 
 # This function saves the changes and updates the display of the 3dslcier window
 def update_display():
+    """Update window display.
+
+    Get the file path from the buffer.txt file and check if it is updated. If updated
+    save previous image changes else assign and provide various colors for
+    segmentation.
+    """
     filepath = get_filepath()
     slicer.util.findChild(slicer.util.mainWindow(), "LogoLabel").visible = False
 
@@ -131,8 +176,15 @@ def update_display():
     qt.QTimer.singleShot(1000, update_display)
 
 
-# This function provides various colors to differentiate different parts while segmentation
 def assign_colors_for_segmentation():
+    """Assign colors for segmentation.
+
+    Assign various colors to differentiate different parts of the brain during
+    segmentation.
+
+    Raises:
+        MRMLNodeNotFounException: An error occurred accessing node or segmentation.
+    """
     try:
         segment_node = getNode("vtkMRMLSegmentationNode1")
         segmentation = segment_node.GetSegmentation()
@@ -144,8 +196,15 @@ def assign_colors_for_segmentation():
         return
 
 
-# This function adds a new segmentation node based on the given study UID
 def add_segmentation_node(studyUID):
+    """Add segmentation node.
+
+    Adds a new segmentation node and empty segments based on the study UID given as input.
+
+    Args:
+        studyUID: str
+            Unique Identifier assigned to each study.
+    """
     seg = slicer.mrmlScene.AddNewNodeByClassWithID(
         "vtkMRMLSegmentationNode", studyUID, "vtkMRMLSegmentationNode1"
     )
@@ -155,8 +214,18 @@ def add_segmentation_node(studyUID):
     seg.GetSegmentation().AddEmptySegment("4", "Right lateral ventricle")
 
 
-# This function saves all the changes to the annotations directory
 def save_all(filepath, annotations_dir=ANNOTATIONS_DIR):
+    """Save all the file changes.
+
+    Saves all the modifications/resampled points of the DICOM image file in the 3d Slicer tool. It also transforms and saves those points to IJK
+    coordinate system.
+
+    Args:
+        filepath: str
+            Path of the DICOM image file.
+        annotations_dir: str
+            Path of the output directory where annotations are saved.
+    """
     nodes = getNodesByClass("vtkMRMLScalarVolumeNode")
     assert len(nodes) == 1
     node = nodes[0]
@@ -184,8 +253,19 @@ def save_all(filepath, annotations_dir=ANNOTATIONS_DIR):
     print("Saving all segmentations to {}".format(dir_path))
 
 
-# This function converts RAS coordinates to IJK or XYZ coordinates
 def get_ijk_point(pt):
+    """Get IJK coordinates from RAS coordinates.
+
+    Converts RAS coordinates to IJK or XYZ coordinates.
+
+    Args:
+        pt:
+            The point in RAS coordinate system.
+
+    Returns:
+        coordsIJK:
+            The point in IJK coordinate system.
+    """
     volumeID = "vtkMRMLScalarVolumeNode1"
     coordsXYZ = [0, 0, 0]
     sliceNode = getNode("vtkMRMLSliceNodeRed")
@@ -201,8 +281,24 @@ def get_ijk_point(pt):
     return coordsIJK
 
 
-# This function saves the IJK or XYZ coordinates
 def save_as_ijk(markupnodes, dir_path, prefix):
+    """Save IJK coordinates of the point.
+
+    Extracts curve points from updated markup nodes convert them to IJK
+    coordinate system and saves them in IJK coordinate system format.
+
+    Args:
+        markupnodes:
+            Nodes with updates or modifications.
+        dir_path: str
+            Path of the output directory where annotations are saved.
+        prefix: str
+            Prefix to differentiate cure nodes to line nodes.
+
+    Raises:
+        AttributeError: An error occured when an invalid attribtue reference is
+        made
+    """
     for i, node in enumerate(markupnodes):
         try:
             currentPoints = node.GetCurvePointsWorld()
@@ -220,8 +316,18 @@ def save_as_ijk(markupnodes, dir_path, prefix):
             continue
 
 
-# This function saves the resampled points selected during segmentation
 def save_resampled_points(markupcurvenodes, dir_path):
+    """Save resampled points.
+
+    Extract curve points from updated markup nodes resample the points and
+    save the points.
+
+    Args:
+        markupcurvenodes:
+            Nodes with updates or modifications.
+        dir_path: str
+            Path of the output directory where all the annotations are saved.
+    """
     resampleNumber = 50
     for i, markupcurvenode in enumerate(markupcurvenodes):
         currentPoints = markupcurvenode.GetCurvePointsWorld()
@@ -243,8 +349,11 @@ def save_resampled_points(markupcurvenodes, dir_path):
             json.dump(all_points, fp)
 
 
-# This function registers shortcuts to the functions provided
 def register_shortcuts():
+    """Register keyboard shortcuts.
+
+    Map keyboard keys to the functions using the QT module from python.
+    """
 
     shortcuts = [
         ("s", lambda: save_all(already_updated[-1])),
@@ -257,8 +366,11 @@ def register_shortcuts():
         shortcut.connect("activated()", callback)
 
 
-# This function clears the buffer file
 def empty_buffer_file():
+    """Empty buffer file.
+
+    Clear the contents of the buffer.txt file by truncating its size to 0.
+    """
     file_ = open(FILE, "r+")
     file_.truncate(0)
     file_.close()
