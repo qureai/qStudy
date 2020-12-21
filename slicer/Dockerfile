@@ -21,6 +21,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev openbox menu \
     x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies
 
+RUN pip install --user pandas && pip install --user flask
+
 # Set VNC password
 RUN mkdir -p /root/.vnc
 RUN x11vnc -storepasswd ${VNC_PASSWORD} /root/.vnc/passwd
@@ -30,6 +32,7 @@ RUN chmod go-rwx /root/.vnc
 COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh
 COPY slicerrc.py /root/
+COPY slicer_api.py /root/
 
 # Expose VNC port
 EXPOSE 5900

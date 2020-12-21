@@ -8,5 +8,5 @@ services:
     ports:
       - "5900:5900"
     volumes:
-      - .:/root/data
+      - ./data:/root/data
     tty: true
