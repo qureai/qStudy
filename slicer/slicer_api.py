@@ -35,13 +35,12 @@ def update_bufferfile(uid):
     df = df.set_index("uid")
     filepath = df.loc[uid, "filepath"]
 
-    buffer_file = open(os.path.join(root_dir, "buffer.txt"), "w")
-    buffer_file.write(filepath)
-    buffer_file.close()
+    with open(os.path.join(root_dir, "buffer.txt"), "w") as buffer_file:
+        buffer_file.write(filepath)
 
     response = "UID {}".format(uid)
     return response
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=False, host="0.0.0.0")
