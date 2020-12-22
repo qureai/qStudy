@@ -2,11 +2,11 @@
  
 This module augments the functionalities provided by the 3d Slicer tool.
 """
-import numpy as np
 import qt
 import os
-from glob import glob
 import json
+import numpy as np
+from glob import glob
 
 
 FILE = "/root/buffer.txt"
@@ -122,7 +122,8 @@ def get_filepath():
     Get a DICOM image file path from the buffer.txt file.
 
     Returns:
-        str: the path of the DICOM image file if present in buffer.txt file else empty string.
+        filepath: str
+            The path of the DICOM image file if present in buffer.txt file else empty string.
     """
     filepath = open(FILE).read().strip()
     return filepath

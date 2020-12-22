@@ -18,8 +18,11 @@ ARG VNC_PASSWORD
 # Install VNC and GL packages
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get -y install x11vnc xvfb libglu1-mesa libpulse-mainloop-glib0 libnss3 libxcursor-dev \
-    libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev openbox menu \
+    libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev openbox menu curl \
     x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies
+
+# Install python packages
+RUN pip install --user pandas flask
 
 # Set VNC password
 RUN mkdir -p /root/.vnc
@@ -29,7 +32,8 @@ RUN chmod go-rwx /root/.vnc
 
 COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh
-COPY slicerrc.py /root/
+COPY .slicerrc.py /root/
+COPY slicer_api.py /root/
 
 # Expose VNC port
 EXPOSE 5900
