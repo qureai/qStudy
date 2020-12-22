@@ -34,6 +34,7 @@ COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh
 COPY .slicerrc.py /root/
 COPY slicer_api.py /root/
+COPY buffer.txt /root/
 
 # Expose VNC port
 EXPOSE 5900
