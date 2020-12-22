@@ -40,15 +40,7 @@ docker-compose build
 
     **Note: The default password for VNC viewer is `vncpassword@123` which can be configured in `docker-compose.yml` before building a docker image.**
 
-4. Open termnial and start 3d Slicer by executing the following in the cmd:
-
-    ```
-    Slicer-4.11.0-2020-09-12-linux-amd64/Slicer
-    ```
-
-    ![3d Slicer](screenshots/3dslicer.png)
-
-5. Open a new tab in the terminal and interact with the Flask API. We can load data into the 3d slicer tool as follows:
+4. Open a new tab in the terminal and interact with the Flask API. We can load data into the 3d slicer tool as follows:
 
     ![Load DICOM file](screenshots/load_file.gif)
 
