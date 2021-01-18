@@ -1,0 +1,56 @@
+@import '../../../scss/variables';
+
+.app-login-wrapper {
+  position: relative;
+}
+
+.logo-figure {
+  width: 250px;
+  margin: 0 auto 0.7rem;
+  .qure-logo {
+    width: 150px;
+    margin: 0 auto;
+    filter: drop-shadow(5px 5px 4px #bbb);
+  }
+}
+
+.login-wrapper {
+  width: 350px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: moveLoginBox 1s forwards 1s;
+  .box {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+.login-top-div {
+  height: 60vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  background: linear-gradient(to right, $primary-color, #286588);
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  transition: clip-path 1s ease-in-out;
+  animation: alignTopDiv 1s forwards .7s;
+}
+
+
+@keyframes moveLoginBox {
+  100% {
+    transition: transform 1s ease-in-out;
+    transform: translatey(-10px);
+  }
+}
+
+@keyframes alignTopDiv {
+ 100% {
+   clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+ }
+}
