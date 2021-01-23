@@ -1,11 +1,10 @@
-import axios from 'axios'
-import _ from 'lodash'
+import axios from 'axios';
+import { API_BASE_URL } from '../constants/apiConstants';
 
-const API_URL = _.get(window, ['_env_', 'API_URL'])
-const TIMEOUT = 10000
+const TIMEOUT = 10000;
 
 const serviceConnect = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE_URL,
   timeout: TIMEOUT,
   withCredentials: true,
 })

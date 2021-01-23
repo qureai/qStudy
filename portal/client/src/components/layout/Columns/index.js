@@ -5,13 +5,14 @@ import classNames from 'classnames'
 import Column from './components/Column'
 
 const Columns = (props) => {
-  const { children, size, isGapless, isMultiline, isCentered, isVerticalCentered, isFullHeight } = props
+  const { children, size, isGapless, isMultiline, isCentered, isVerticalCentered, isFullHeight, isMargin } = props
   const className = classNames('columns', {
     [`is-${size}`]: size,
     'is-gapless': isGapless,
     'is-multiline': isMultiline,
     'is-centered': isCentered,
     'is-vcentered': isVerticalCentered,
+    'is-margin': isMargin
   })
 
   const stylez = {}

@@ -5,9 +5,11 @@ This module provides API to display a requested file on the 3d Slicer tool.
 import os
 import pandas as pd
 from flask import Flask
+from flask_cors import CORS
 from markupsafe import escape
 
 app = Flask(__name__)
+CORS(app)
 
 root_dir = "/root/"
 csv_file = "data/db_nii.csv"
@@ -19,7 +21,7 @@ file paths.
 """
 
 
-@app.route("/uid/<uid>")
+@app.route("/uid/<uid>", methods=['POST'])
 def update_bufferfile(uid):
     """Update the buffer.txt file
 

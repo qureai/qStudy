@@ -1,15 +1,55 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
 
-import { Card, Level, Box, Button, ButtonGroup, Checkbox, TextBox, Icon, Columns, Table } from '../../components'
+import { Columns, Container, Menubar } from '../../components';
 
-import PageContainer from '../../components/composite/PageLayout'
+import { studyService, logoutService } from './services';
+import PageContainer from '../../components/composite/PageLayout';
+import ListView from './components/ListView';
+import DetailView from './components/DetailView';
 
 const StudyLists = () => {
-    const [isLoading, setLoading] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const data = []
-    const columns = []
+    const [isLoading, setLoading] = useState(false);
+    const [isHidden, setIsHidden] = useState(true);
+    const [studyList, setStudyList] = useState([]);
+    const [currentStudy, setCurrentStudy] = useState({
+        labels: [],
+        remarks: ""
+    });
+    const [labelOptions, setLabelOptions] = useState([]);
+    const [selectedLabels, setSelectedLabels] = useState([]);
+
+    useEffect(() => {
+        setLoading(true);
+        studyService()
+            .then((studyData) => {
+                setLoading(false);                
+                setStudyList(studyData);
+            })
+            .catch((err) => {
+                console.log("studyService error: ", err);
+            });
+    },[]);
+
+    const showStudyDetails = (current_study) => {        
+        const _labelOptions = [];
+        const _selectedLabels = [];
+
+        current_study.labels.forEach(labelItem => {
+            _labelOptions.push({
+                'label': labelItem.label,
+                'value': labelItem.label
+            });
+
+            if(labelItem.status) {
+                _selectedLabels.push(labelItem.label);
+            }
+        });
+
+        setCurrentStudy(current_study);
+        setLabelOptions(_labelOptions);
+        setSelectedLabels(_selectedLabels);
+        setIsHidden(false);
+    };
 
     return (
         <PageContainer
@@ -20,90 +60,27 @@ const StudyLists = () => {
             iconClassName="fa-list-alt"
             className="client-list-container"
         >
-        <section className="notification is-primary is-small top-banner">
-            <Level>
-            <Level.Left>
-                <div>
-                    <div className="is-size-5 has-text-weight-bold has-text-white">
-                        {'qStudy'}
-                    </div>
-                </div>
-            </Level.Left>
-            <Level.Right>                
-                <div>
-                    <Link to="/instructions" className="button mt-2 mr-2 is-block">
-                        <Icon iConClass="fa-info-circle" />
-                        <span>{'Instructions'}</span>
-                    </Link>
-                </div>
-                <div>
-                    <Link to="/login" className="button mt-2 is-block">                        
-                        <Icon iConClass="fa-sign-out-alt" />
-                        <span>{'Logout'}</span>
-                    </Link>
-                </div>
-            </Level.Right>
-            </Level>
-        </section>
-        <div className="is-size-5 has-text-black-bis mb-5 ml-4">
-            {'Hello, User'}
-        </div>
-        <div className="ml-4 mr-4">
+        <Menubar
+            onLogout={logoutService}
+        />
+        <Container isFluid>
             <Columns>
-                <Columns.Column size={'4'}>
-                    <Table
-                        title="Study List"
-                        data={data}
-                        columns={columns}
-                        className="table"
+                <Columns.Column size="4">
+                    <ListView
+                        studyList={studyList}
+                        showStudyDetails={showStudyDetails}
                     />
                 </Columns.Column>
                 <Columns.Column>
-                <Card
-                    className={'card-wrapper'}
-                    contentOnly
-                >
-                    <div className="content">
-                        <div className='title'>Study</div>
-                        <div className='subtitle'>StudyNumber 1xY5</div>
-                        <Columns>
-                            <Columns.Column size={10}>
-                                <p>
-                                    Clinical History: Bring to the table win-win survival strategies to ensure proactive domination.
-                                </p>
-                            </Columns.Column>
-                            <Columns.Column>
-                                <Button type="button" isSecondary isLoading={isSubmitting}>
-                                    <span>{'View Image'}</span>
-                                </Button>
-                            </Columns.Column>
-                        </Columns>                    
-                        <form>
-                            <Box className="add-client-container">
-                                <Columns>
-                                    <Columns.Column>
-                                        Checkbox
-                                    </Columns.Column>
-                                </Columns>
-                            </Box>                        
-                            <Box className="add-client-container">
-                                <Columns>
-                                    <Columns.Column>
-                                        Textbox
-                                    </Columns.Column>
-                                </Columns>
-                            </Box>
-                            <ButtonGroup>                                
-                                <Button type="submit" isPrimary isLoading={isSubmitting}>                            
-                                    <span>{'Submit'}</span>
-                                </Button>
-                            </ButtonGroup>
-                        </form>
-                    </div>
-                </Card>
+                    <DetailView
+                        studyData={currentStudy}
+                        labelOptions={labelOptions}
+                        selectedLabels={selectedLabels}
+                        isHidden={isHidden}
+                    ></DetailView>
                 </Columns.Column>
             </Columns>
-        </div>         
+        </Container>       
       </PageContainer>        
     )
 }

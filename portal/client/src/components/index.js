@@ -2,6 +2,7 @@ import Login from './composite/Login'
 import Card from './composite/Card'
 import Loader from './composite/Loader'
 import Table from './composite/Table'
+import Menubar from './composite/Menubar'
 
 import Box from './elements/Box'
 import ButtonGroup from './elements/ButtonGroup'
@@ -24,6 +25,7 @@ export {
   Card,
   Loader,
   Table,
+  Menubar,
 
   Box,
   ButtonGroup,
