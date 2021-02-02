@@ -151,11 +151,11 @@ Login.propTypes = {
     email: PropTypes.string,
     password: PropTypes.string,
     submit: PropTypes.string,
-    fieldErrorMessages: {
+    fieldErrorMessages: PropTypes.shape({
       required: PropTypes.string,
       invalidEmail: PropTypes.string,
       minLengthPassword: PropTypes.string,
-    },
+    }),
   }),
 }
 

@@ -21,7 +21,7 @@ sessionRouter.post("", async (req, res) => {
             throw new Error('Invalid login credentials');
         }
     } catch (err) {
-        res.status(401).send(parseError(err));
+        res.status(400).send(parseError(err));
     }
 });
 

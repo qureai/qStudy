@@ -16,8 +16,8 @@ const AppLogin = () => {
 
     loginService(data)
       .then((response) => {
-        history.push('/');
         setIsSubmitting(false);
+        history.push('/');
       })
       .catch((err) => {
         const status = _.get(err, 'status');

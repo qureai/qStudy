@@ -15,9 +15,14 @@ const requiresLogin = (req, res, next) => {
 studyRouter.post("", requiresLogin, async (req, res) => {
     try {
         const study = await Study.find({});
-        res.send(study);
+        if(study) {
+            res.status(200).send(study);
+        }
+        else {
+            res.status(404).send(null);
+        }
     } catch (err) {
-        res.status(401).send(parseError(err));
+        res.status(500).send(parseError(err));
     }
 });
 
@@ -35,7 +40,7 @@ studyRouter.post("/update", requiresLogin, async (req, res) => {
 
         res.status(200).send("Study updated successfully");
     } catch (err) {
-        res.status(401).send(parseError(err));
+        res.status(500).send(parseError(err));
     }
 });
 
