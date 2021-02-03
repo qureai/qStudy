@@ -38,6 +38,7 @@ COPY buffer.txt /root/
 
 # Expose VNC port
 EXPOSE 5900
+EXPOSE 5000
 
 # Set GL version
 RUN export MESA_GL_VERSION_OVERRIDE=3.2
