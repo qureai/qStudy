@@ -80,7 +80,7 @@ Button.defaultProps = {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   placeholder: PropTypes.string,
   className: PropTypes.string,
   isDisabled: PropTypes.bool,
