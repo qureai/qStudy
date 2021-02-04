@@ -1,4 +1,5 @@
 import serviceConnect from '../../libs/axios-connect';
+import axios from 'axios';
 
 const studyService = async () => {  
   try {
@@ -26,7 +27,7 @@ const updateService = async (payload) => {
     console.log("updateService: ", err);
   }
 };
-import axios from 'axios';
+
 const loadImageService = async (uid) => {
   try {
     const { data } = await axios.post('http://localhost:5000/uid/' + uid);

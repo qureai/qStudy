@@ -9,6 +9,7 @@ RUN npm install --silent
 RUN npm install -g serve
 # Copy app source code
 COPY src/ src/
+COPY public/ public/
 RUN npm run build
 
 CMD serve -s build
