@@ -6,7 +6,7 @@ services:
       args:
         VNC_PASSWORD: "vncpassword@123"
     volumes:
-      - ./data:/root/data
+      - ./data/slicer:/root/data
     ports:
       - 5900:5900
       - 5002:5000
@@ -15,12 +15,18 @@ services:
     build:
       context: ./portal/client
     ports:
-      - 5005:5000
+      - 5005:3000
   portal-server:
     build:
       context: ./portal/server
     ports:
       - 5001:5001
+  mongodb:
+    image: mongo:4.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
   nginx-proxy:
     image: nginx
     volumes:
