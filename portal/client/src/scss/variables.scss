@@ -1,0 +1,40 @@
+@charset "utf-8";
+$primary-text-color :#fff;
+$abnormal-highlight-color: red;
+$normal-highlight-color: green;
+$white-color: #fff;
+
+
+// these are all bulma variable that we can configure
+$primary-color: #224e73;
+$primary-accent-color: #0094c6;
+$danger: #eb3d4d;
+$primary-text-color: #fff;
+$text-color: #000000;
+$placeholder-text-color: #999999;
+$info-text-color: #979191;
+$list-red: #f39ca0;
+
+// Set your brand colors
+$purple: #8a4d76;
+$pink: #fa7c91;
+$brown: #757763;
+$beige-light: #d0d1cd;
+$beige-lighter: #ffff;
+$grey: #ccc;
+
+// Update Bulma's global variables
+//$family-sans-serif: "Poppins", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $primary-color;
+//$link: $primary-color;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+//Dark mode colors customization
+
+$dark-level1: #1e1e1e;
+$dark-level2: #222222;
+$dark-level3: #303030;
+$dark-level4: #4e4e4e;

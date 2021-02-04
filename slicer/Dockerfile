@@ -22,7 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies
 
 # Install python packages
-RUN pip install --user pandas flask
+RUN pip3 install --user pandas flask flask_cors
 
 # Set VNC password
 RUN mkdir -p /root/.vnc
@@ -38,6 +38,7 @@ COPY buffer.txt /root/
 
 # Expose VNC port
 EXPOSE 5900
+EXPOSE 5000
 
 # Set GL version
 RUN export MESA_GL_VERSION_OVERRIDE=3.2

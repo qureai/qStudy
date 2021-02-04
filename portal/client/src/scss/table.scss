@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+.column-header {
+  &:hover {
+      background-color: $grey;
+  }
+
+  .icon {
+      cursor: pointer;
+  }
+
+  &.sortable {
+    cursor: pointer;
+  }
+}
+
+.no-records {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.loader-container {
+  position: absolute;
+  background: rgba(255,255,255,0.8);
+  width: 100%;
+  left: 0;
+  z-index: 10;
+  text-align: center;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
