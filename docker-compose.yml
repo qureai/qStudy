@@ -5,9 +5,26 @@ services:
       context: ./slicer
       args:
         VNC_PASSWORD: "vncpassword@123"
-    ports:
-      - "5900:5900"
-      - "5000:5002"
     volumes:
-      - ./data:/root/data
+      - ./data/slicer:/root/data
+    ports:
+      - 5900:5900
     tty: true
+  portal-client:
+    build:
+      context: ./portal/client
+  portal-server:
+    build:
+      context: ./portal/server
+  mongodb:
+    image: mongo:4.0
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
+  nginx-proxy:
+    image: nginx
+    volumes:
+      - ./nginx-proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
