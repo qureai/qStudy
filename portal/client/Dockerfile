@@ -8,8 +8,7 @@ COPY package*.json ./
 RUN npm install --silent
 RUN npm install -g serve
 # Copy app source code
-COPY src/ src/
-RUN npm run build
+COPY . .
 
 # CMD serve -s build
 CMD npm start
