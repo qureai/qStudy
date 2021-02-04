@@ -38,7 +38,7 @@ const AppLogin = () => {
       isLoginInProgress={isSubmitting}
       containerClassname="login-wrapper"
       errorMessage={errorMessage}
-      logoPath='/qTrackLogo.svg'
+      logoPath='/qStudyLogo.png'
     />
   );
 }

@@ -9,18 +9,13 @@ services:
       - ./data/slicer:/root/data
     ports:
       - 5900:5900
-      - 5002:5000
     tty: true
   portal-client:
     build:
       context: ./portal/client
-    ports:
-      - 5005:3000
   portal-server:
     build:
       context: ./portal/server
-    ports:
-      - 5001:5001
   mongodb:
     image: mongo:4.0
     ports:

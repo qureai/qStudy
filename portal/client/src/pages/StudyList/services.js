@@ -30,7 +30,7 @@ const updateService = async (payload) => {
 
 const loadImageService = async (uid) => {
   try {
-    const { data } = await axios.post('http://localhost:5000/uid/' + uid);
+    const { data } = await axios.post('/uid/' + uid);
     return data;
   } catch(err) {
     console.log(err);
