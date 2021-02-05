@@ -6,10 +6,12 @@ services:
       args:
         VNC_PASSWORD: "vncpassword@123"
     volumes:
-      - ./data/slicer:/root/data
+      - ./data/slicer:/root/data/
+      - ./data/annotations:/root/annotations/
     ports:
       - 5900:5900
     tty: true
+    restart: on-failure
   portal-client:
     build:
       context: ./portal/client
