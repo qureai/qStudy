@@ -32,6 +32,8 @@ RUN chmod go-rwx /root/.vnc
 
 COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh
+RUN mkdir -p /root/data/slicer
+RUN mkdir -p /root/data/annotations
 COPY .slicerrc.py /root/
 COPY slicer_api.py /root/
 COPY buffer.txt /root/

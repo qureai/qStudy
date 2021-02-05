@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const StudySchema = new mongoose.Schema({
     _id: String,
+    user_id: Number,
     study_id: String,
     user: String,
     read_order: String,

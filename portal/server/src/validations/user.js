@@ -1,5 +1,8 @@
 import Joi from 'joi';
 
+const user_id = Joi.number()
+  .required();
+
 const email = Joi.string()
   .email()
   .message('email must in the format example@domain.com')
@@ -14,6 +17,7 @@ const password = Joi.string()
   .required();
 
 export const signUp = Joi.object().keys({
+  user_id,
   email,
   password
 });

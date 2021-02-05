@@ -2,12 +2,21 @@ import mongoose from 'mongoose';
 import { compareSync, hashSync } from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
+    user_id: {
+        type: Number,
+        validate: {
+            validator: user_id => User.doesNotExist({ user_id }),
+            message: "Duplicate user id"
+        },
+        required: true
+    },
     email: {
         type: String,
         validate: {
             validator: email => User.doesNotExist({ email }),
             message: "Email already exists"
-        }
+        },
+        required: true
     },
     password: {
         type: String,
