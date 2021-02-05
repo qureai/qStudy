@@ -44,11 +44,6 @@ const Menubar = (props) => {
         className={classNames('navbar-menu', { 'is-active': isVisible })}
       >
         <div className="navbar-start">
-          {/* <a href="/instructions.html" className="navbar-item">
-            <Icon iConClass="fa-external-link-alt" />
-            <span>{'Instructions'}</span>
-          </a> */}
-
           <NavLink
             to="/login"
             exact
