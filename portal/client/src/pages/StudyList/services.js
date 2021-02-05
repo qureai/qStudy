@@ -30,8 +30,17 @@ const updateService = async (payload) => {
 
 const loadImageService = async (uid) => {
   try {
-    const { data } = await axios.post('/uid/' + uid);
-    return data;
+    const { data } = await serviceConnect.get('/api/session');
+    const user_id = data.user.user_id
+    
+    let response = "Image loading failed";
+
+    if(user_id) {
+      const { data } = await axios.post('/slicer/' + user_id + "/uid/" + uid);
+      response = data;
+    }
+
+    return response;
   } catch(err) {
     console.log(err);
   }

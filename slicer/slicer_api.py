@@ -3,7 +3,6 @@
 This module provides API to display a requested file on the 3d Slicer tool.
 """
 import os
-import pandas as pd
 from flask import Flask
 from flask_cors import CORS
 from markupsafe import escape

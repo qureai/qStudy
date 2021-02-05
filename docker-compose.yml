@@ -1,15 +1,27 @@
 version: "3"
 services:
-  slicer:
+  slicer_1:
     build:
       context: ./slicer
       args:
         VNC_PASSWORD: "vncpassword@123"
     volumes:
       - ./data/slicer:/root/data/
-      - ./data/annotations:/root/annotations/
+      - ./data/annotations/user_1:/root/annotations/
     ports:
       - 5900:5900
+    tty: true
+    restart: on-failure
+  slicer_2:
+    build:
+      context: ./slicer
+      args:
+        VNC_PASSWORD: "vncpassword@123"
+    volumes:
+      - ./data/slicer:/root/data/
+      - ./data/annotations/user_2:/root/annotations/
+    ports:
+      - 5901:5900
     tty: true
     restart: on-failure
   portal-client:
