@@ -9,5 +9,5 @@ export const parseError = err => {
 
 // Items to store in session
 export const sessionizeUser = user => {
-    return { userId: user.id, email: user.email };
+    return { user_id: user.user_id, email: user.email };
 }

@@ -22,7 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies
 
 # Install python packages
-RUN pip install --user pandas flask flask_cors
+RUN pip install --user flask flask_cors
 
 # Set VNC password
 RUN mkdir -p /root/.vnc
@@ -32,6 +32,8 @@ RUN chmod go-rwx /root/.vnc
 
 COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh
+RUN mkdir -p /root/data
+RUN mkdir -p /root/annotations
 COPY .slicerrc.py /root/
 COPY slicer_api.py /root/
 COPY buffer.txt /root/

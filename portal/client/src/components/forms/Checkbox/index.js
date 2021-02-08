@@ -67,7 +67,7 @@ const CheckboxControlField = ({ formObject, fieldName, fieldValue, fieldLabel, i
           formObject.setFieldValue(`${fieldName}.${index}`, value)
         }}
       />
-      <label htmlFor={fieldID}>{fieldLabel}</label>
+      <label htmlFor={fieldID}> { fieldLabel } </label>
     </div>
   )
 }
