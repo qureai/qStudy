@@ -29,14 +29,15 @@ def update_bufferfile(uid):
         response: str
             Study UID accepted as input.
     """    
+    filepath = os.path.join(root_dir, "data/", uid) + ".nii.gz"
 
-    path = os.path.join(root_dir, "data/", uid) + ".nii.gz"
+    if os.path.exists(filepath):
+        with open(os.path.join(root_dir, "buffer.txt"), "w") as buffer_file:
+            buffer_file.write(filepath)
 
-    with open(os.path.join(root_dir, "buffer.txt"), "w") as buffer_file:
-        buffer_file.write(path)
-
-    response = "Successfully loaded study {} on slicer".format(uid)
-    return response
+        return "Successfully loaded study on slicer"
+    
+    return "Failed loading study on slicer"
 
 
 if __name__ == "__main__":

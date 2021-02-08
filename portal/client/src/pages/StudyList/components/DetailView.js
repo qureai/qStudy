@@ -13,7 +13,7 @@ const DetailsView = (props) => {
 
     const loadImage = () => {
         setLoading(true);
-        loadImageService(studyData._id)
+        loadImageService(studyData.study_instance_id)
             .then(response => alert(response))
             .catch(err => console.log("load image: ", err));
         setLoading(false);
@@ -34,6 +34,7 @@ const DetailsView = (props) => {
 
         saveStudyData.labels = _labels;
         saveStudyData.remarks = formValues.remarks;
+        saveStudyData.status = "Complete"
 
         updateService(saveStudyData)
             .then(response => alert(response))
