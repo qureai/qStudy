@@ -10,7 +10,7 @@ const useStudyForm = (studyData, selectedLabels, onFormSubmit) => {
         },
         validationSchema: Yup.object({
             'labels': Yup.array().required('Required'),
-            'remarks': Yup.string().required('Required')
+            'remarks': Yup.string()
         }),
         onSubmit: formValues => onFormSubmit(formValues),
     });

@@ -24,6 +24,18 @@ services:
       - 5901:5900
     tty: true
     restart: on-failure
+  slicer_3:
+    build:
+      context: ./slicer
+      args:
+        VNC_PASSWORD: "vncpassword@123"
+    volumes:
+      - ./data/slicer:/root/data/
+      - ./data/annotations/user_3:/root/annotations/
+    ports:
+      - 5902:5900
+    tty: true
+    restart: on-failure
   portal-client:
     build:
       context: ./portal/client
@@ -34,6 +46,9 @@ services:
     image: mongo:4.0
     ports:
       - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=qStudy_root
+      - MONGO_INITDB_ROOT_PASSWORD=bigcamp93
     volumes:
       - ./data/db:/data/db
   nginx-proxy:
