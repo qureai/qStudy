@@ -31,9 +31,6 @@ def update_bufferfile(uid):
     """    
     filepath = os.path.join(root_dir, "data/", uid) + ".nii.gz"
 
-    print(filepath)
-    print(os.path.exists(filepath))
-
     if os.path.exists(filepath):
         with open(os.path.join(root_dir, "buffer.txt"), "w") as buffer_file:
             buffer_file.write(filepath)
