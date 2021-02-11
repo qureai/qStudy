@@ -19,16 +19,16 @@ ARG VNC_PASSWORD
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && apt-get -y install x11vnc xvfb libglu1-mesa libpulse-mainloop-glib0 libnss3 libxcursor-dev \
     libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev openbox menu curl \
-    x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies
+    x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies libpulse-dev libnss3 libxcb-xinerama0
 
 # Install python packages
 RUN pip install --user flask flask_cors
 
 # Set VNC password
-RUN mkdir -p /root/.vnc
-RUN x11vnc -storepasswd ${VNC_PASSWORD} /root/.vnc/passwd
-RUN chmod 400 /root/.vnc/passwd
-RUN chmod go-rwx /root/.vnc
+#RUN mkdir -p /root/.vnc
+#RUN x11vnc -storepasswd ${VNC_PASSWORD} /root/.vnc/passwd
+#RUN chmod 400 /root/.vnc/passwd
+#RUN chmod go-rwx /root/.vnc
 
 COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh

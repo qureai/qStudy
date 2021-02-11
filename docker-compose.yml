@@ -3,8 +3,8 @@ services:
   slicer_1:
     build:
       context: ./slicer
-      args:
-        VNC_PASSWORD: "vncpassword@123"
+    environment:
+      - VNC_PASSWORD=vncpassword@123
     volumes:
       - ./data/slicer:/root/data/
       - ./data/annotations/user_1:/root/annotations/
@@ -15,8 +15,8 @@ services:
   slicer_2:
     build:
       context: ./slicer
-      args:
-        VNC_PASSWORD: "vncpassword@123"
+    environment:
+      - VNC_PASSWORD=vncpassword@123
     volumes:
       - ./data/slicer:/root/data/
       - ./data/annotations/user_2:/root/annotations/
@@ -27,8 +27,8 @@ services:
   slicer_3:
     build:
       context: ./slicer
-      args:
-        VNC_PASSWORD: "vncpassword@123"
+    environment:
+      - VNC_PASSWORD=vncpassword@123
     volumes:
       - ./data/slicer:/root/data/
       - ./data/annotations/user_3:/root/annotations/
@@ -42,13 +42,14 @@ services:
   portal-server:
     build:
       context: ./portal/server
+    env_file:
+      - ./portal/server/.env
   mongodb:
     image: mongo:4.0
     ports:
       - 27017:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=qStudy_root
-      - MONGO_INITDB_ROOT_PASSWORD=bigcamp93
+    env_file:
+      - ./portal/server/.env
     volumes:
       - ./data/db:/data/db
   nginx-proxy:
