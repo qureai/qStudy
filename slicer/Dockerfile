@@ -24,12 +24,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 # Install python packages
 RUN pip install --user flask flask_cors
 
-# Set VNC password
-#RUN mkdir -p /root/.vnc
-#RUN x11vnc -storepasswd ${VNC_PASSWORD} /root/.vnc/passwd
-#RUN chmod 400 /root/.vnc/passwd
-#RUN chmod go-rwx /root/.vnc
-
 COPY entrypoint.sh /root/
 RUN chmod a+x /root/entrypoint.sh
 RUN mkdir -p /root/data
