@@ -3,8 +3,8 @@ services:
   slicer_1:
     build:
       context: ./slicer
-      args:
-        VNC_PASSWORD: "vncpassword@123"
+    environment:
+      - VNC_PASSWORD=vncpassword@123
     volumes:
       - ./data/slicer:/root/data/
       - ./data/annotations/user_1:/root/annotations/
@@ -15,13 +15,25 @@ services:
   slicer_2:
     build:
       context: ./slicer
-      args:
-        VNC_PASSWORD: "vncpassword@123"
+    environment:
+      - VNC_PASSWORD=vncpassword@123
     volumes:
       - ./data/slicer:/root/data/
       - ./data/annotations/user_2:/root/annotations/
     ports:
       - 5901:5900
+    tty: true
+    restart: on-failure
+  slicer_3:
+    build:
+      context: ./slicer
+    environment:
+      - VNC_PASSWORD=vncpassword@123
+    volumes:
+      - ./data/slicer:/root/data/
+      - ./data/annotations/user_3:/root/annotations/
+    ports:
+      - 5902:5900
     tty: true
     restart: on-failure
   portal-client:
@@ -30,10 +42,14 @@ services:
   portal-server:
     build:
       context: ./portal/server
+    env_file:
+      - ./portal/server/.env
   mongodb:
     image: mongo:4.0
     ports:
       - 27017:27017
+    env_file:
+      - ./portal/server/.env
     volumes:
       - ./data/db:/data/db
   nginx-proxy:

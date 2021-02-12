@@ -5,9 +5,14 @@ const ListView = (props) => {
     const { studyList, showStudyDetails } = props;
     const columns = [
         {
-            name: "StudyId",
-            accessor: "study_id"
-        }
+            name: "Study Id",
+            accessor: "study_id",
+            searchable: true
+        },
+        {
+            name: "Status",
+            accessor: "status"
+        }        
     ]
 
     return(
@@ -15,10 +20,12 @@ const ListView = (props) => {
             title="Study List"
             data={studyList}
             columns={columns}
-            className="table"
+            className="table-container"
             hasTableHeader={true}
-            search={{enableSearch: false}}
-            onClickRow={showStudyDetails}
+            tableClass="is-striped"
+            pagination={{ pageNumber: 1, pageSize: 10 }}
+            search={{enableSearch: true}}
+            onClickRow={(current_study) => showStudyDetails(current_study)}
         />
     );
 }

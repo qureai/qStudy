@@ -30,7 +30,8 @@ const StudyLists = () => {
             });
     },[]);
 
-    const showStudyDetails = (current_study) => {        
+    const showStudyDetails = (current_study) => {       
+        setIsHidden(true);
         const _labelOptions = [];
         const _selectedLabels = [];
 

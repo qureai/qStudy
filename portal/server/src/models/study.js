@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 const StudySchema = new mongoose.Schema({
-    _id: String,
+    _id: mongoose.ObjectId,
     user_id: Number,
     study_id: String,
-    user: String,
-    read_order: String,
-    status: Object,
+    sutdy_instance_id: String,
+    user: String,    
+    status: String,
     labels: Object,
     remarks: String,
     timestamps: Object
