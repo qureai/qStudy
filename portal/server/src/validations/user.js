@@ -9,11 +9,9 @@ const email = Joi.string()
   .required();
 
 const password = Joi.string()
-  .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)
+  .regex(/^(?=.*[a-z])(?=.*\d)[a-zA-Z0-9!@#$%^&*]{6,16}$/)
   .message('password must be between 6-16 characters, ' +
-    'have at least one capital letter, ' +
-    'one lowercase letter, one digit, ' +
-    'and one special character')
+    'one lowercase letter, one digit')
   .required();
 
 export const signUp = Joi.object().keys({
