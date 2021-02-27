@@ -36,7 +36,15 @@ def update_bufferfile(uid):
             buffer_file.write(filepath)
 
         return "Successfully loaded study on slicer"
-    
+
+    filepath = os.path.join(root_dir, "data/", uid) + ".dcm"
+
+    if os.path.exists(filepath):
+        with open(os.path.join(root_dir, "buffer.txt"), "w") as buffer_file:
+            buffer_file.write(filepath)
+
+        return "Successfully loaded study on slicer"
+
     return "Failed loading study on slicer"
 
 
