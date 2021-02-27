@@ -36,6 +36,18 @@ services:
       - 5902:5900
     tty: true
     restart: on-failure
+  slicer_4:
+    build:
+      context: ./slicer
+    environment:
+      - VNC_PASSWORD=vncpassword@123
+    volumes:
+      - ./data/slicer:/root/data/
+      - ./data/annotations/user_4:/root/annotations/
+    ports:
+      - 5903:5900
+    tty: true
+    restart: on-failure
   portal-client:
     build:
       context: ./portal/client

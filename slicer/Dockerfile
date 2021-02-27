@@ -12,14 +12,13 @@ RUN apt-get update && \
 RUN wget http://slicer.kitware.com/midas3/download/bitstream/1329446/Slicer-4.11.0-2020-09-12-linux-amd64.tar.gz && \
     tar -xvf /root/Slicer-4.11.0-2020-09-12-linux-amd64.tar.gz
 
-# Define build time arguments
-ARG VNC_PASSWORD
-
 # Install VNC and GL packages
 RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && apt-get -y install x11vnc xvfb libglu1-mesa libpulse-mainloop-glib0 libnss3 libxcursor-dev \
-    libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev openbox menu curl \
-    x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux xterm xfce4 xfce4-goodies libpulse-dev libnss3 libxcb-xinerama0
+    apt-get update && apt-get -y install xorg openbox x11vnc xvfb xterm xfce4 xfce4-goodies \
+    libglu1-mesa libpulse-mainloop-glib0 libnss3 libxcursor-dev libpulse-dev libnss3 libxcb-xinerama0\
+    libasound2-dev libglfw3-dev libgles2-mesa-dev libbz2-dev libffi-dev zlib1g-dev \
+    libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0 libxcb-render-util0 libxcb-xkb-dev \
+    libxkbcommon-x11-dev menu curl x11-utils xfonts-base xfonts-75dpi xfonts-100dpi python-pip python-dev python-qt4 tmux
 
 # Install python packages
 RUN pip install --user flask flask_cors
